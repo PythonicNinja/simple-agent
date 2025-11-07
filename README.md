@@ -2,28 +2,6 @@
 
 A tiny, KISS-friendly command line agent that can talk to either OpenAI's ChatGPT API or Google's Gemini API. The agent supports a pluggable backend, a light tool loop, and environment-driven configuration.
 
-### Make targets (uvx-powered)
-
-The repo ships with a lightweight `Makefile` wired to [`uvx`](https://docs.astral.sh/uv/guides/tools/) for reproducible tooling:
-
-- `make venv` – create a local virtual environment at `env/` (activate with `source env/bin/activate`).
-- `make install` – install dependencies (uses `env/bin/python` if `make venv` ran, otherwise falls back to `uvx python`).
-- `make run PROMPT="hello"` – run the agent with the provided prompt.
-- `make tools` – list the currently wired tools.
-- `make lint` – run Ruff via `uvx` (no local install required).
-
-### Quick start
-
-1. Create a virtual environment for Python 3.11+ and install the dependencies:
-   ```bash
-   make install
-   ```
-2. Copy `.env.example` to `.env` and fill in the API keys you plan to use.
-3. Run the agent:
-   ```bash
-   make run PROMPT="Summarize the latest message."
-   ```
-
 ### Examples
 
 #### Disk space:
@@ -58,6 +36,29 @@ Warsaw
 | => python main.py "search on wiki for top article of today? use python requests"
 Today's Featured Article on Wikipedia is "U2 in 2005".
 ```
+
+
+### Make targets (uvx-powered)
+
+The repo ships with a lightweight `Makefile` wired to [`uvx`](https://docs.astral.sh/uv/guides/tools/) for reproducible tooling:
+
+- `make venv` – create a local virtual environment at `env/` (activate with `source env/bin/activate`).
+- `make install` – install dependencies (uses `env/bin/python` if `make venv` ran, otherwise falls back to `uvx python`).
+- `make run PROMPT="hello"` – run the agent with the provided prompt.
+- `make tools` – list the currently wired tools.
+- `make lint` – run Ruff via `uvx` (no local install required).
+
+### Quick start
+
+1. Create a virtual environment for Python 3.11+ and install the dependencies:
+   ```bash
+   make install
+   ```
+2. Copy `.env.example` to `.env` and fill in the API keys you plan to use.
+3. Run the agent:
+   ```bash
+   make run PROMPT="Summarize the latest message."
+   ```
 
 ### Configuration
 
