@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import logging
 import re
 from dataclasses import dataclass, field
 from typing import Dict, Iterable, List
@@ -18,7 +19,11 @@ You have access to the following tools:
 If a tool is necessary, respond with ONLY a JSON object that looks like:
 {{"tool": "<tool name>", "input": "<plain text request for the tool>"}}
 Do not wrap the JSON in backticks or add commentary.
-If no tool is needed, answer the user directly in natural language."""
+If no tool is needed, answer the user directly in natural language.
+<IMPORTANT>
+If no explicit tool try to use python tool to execute code in it!
+</IMPORTANT>
+"""
 
 
 @dataclass(slots=True)
@@ -30,6 +35,7 @@ class SimpleAgent:
     system_prompt: str
     tool_map: Dict[str, Tool] = field(init=False)
     _prepared_system_prompt: str = field(init=False)
+    _logger: logging.Logger = field(init=False, repr=False)
 
     def __post_init__(self) -> None:
         self.tool_map: Dict[str, Tool] = {tool.name: tool for tool in self.tools}
@@ -38,6 +44,7 @@ class SimpleAgent:
             user_prompt=self.system_prompt,
             tool_descriptions=descriptions,
         )
+        self._logger = logging.getLogger(self.__class__.__name__)
 
     def run(self, user_input: str, max_turns: int = 5) -> str:
         history: List[dict[str, str]] = [
@@ -47,8 +54,10 @@ class SimpleAgent:
 
         for _ in range(max_turns):
             response = self.backend.generate(history)
+            self._logger.debug("Model response: %s", _truncate(response))
             tool_request = self._maybe_extract_tool_request(response)
             if not tool_request:
+                self._logger.info("Responding without tool use.")
                 return response.strip()
 
             tool_name = tool_request.get("tool")
@@ -56,6 +65,7 @@ class SimpleAgent:
 
             tool = self.tool_map.get(tool_name or "")
             if not tool:
+                self._logger.warning("Model requested unknown tool '%s'.", tool_name)
                 history.append(
                     {
                         "role": "user",
@@ -64,7 +74,11 @@ class SimpleAgent:
                 )
                 continue
 
+            self._logger.info("Running tool '%s'.", tool_name)
+            if tool_input:
+                self._logger.debug("Tool '%s' input: %s", tool_name, _truncate(tool_input))
             tool_output = tool.run(tool_input)
+            self._logger.debug("Tool '%s' output: %s", tool_name, _truncate(tool_output))
 
             history.append({"role": "assistant", "content": json.dumps(tool_request)})
             history.append(
@@ -93,3 +107,8 @@ class SimpleAgent:
                 return data
 
         return None
+
+
+def _truncate(value: str, limit: int = 500) -> str:
+    value = value.strip()
+    return value if len(value) <= limit else f"{value[:limit]}…"

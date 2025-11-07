@@ -8,6 +8,7 @@ requires-python = ">=3.11"
 dependencies = [
     "python-dotenv>=1.0",
     "requests>=2.32",
+    "psutil>=5.9",
 ]
 
 [project.optional-dependencies]

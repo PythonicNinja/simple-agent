@@ -26,6 +26,7 @@ class Settings:
     gemini_api_key: str | None
     gemini_model: str
     request_timeout: float
+    python_tool_imports: tuple[str, ...]
 
     @staticmethod
     def _get_env(key: str, default: str | None = None) -> str | None:
@@ -51,6 +52,7 @@ class Settings:
             gemini_api_key=cls._get_env("GEMINI_API_KEY"),
             gemini_model=cls._get_env("GEMINI_MODEL", "gemini-1.5-flash"),
             request_timeout=float(cls._get_env("REQUEST_TIMEOUT", "30")),
+            python_tool_imports=_parse_list(cls._get_env("PYTHON_TOOL_IMPORTS")),
         )
 
 
@@ -59,3 +61,9 @@ def get_settings() -> Settings:
     """Convenience accessor with caching to avoid redundant parsing."""
 
     return Settings.from_env()
+
+
+def _parse_list(value: str | None) -> tuple[str, ...]:
+    if not value:
+        return ()
+    return tuple(item.strip() for item in value.split(",") if item.strip())

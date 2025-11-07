@@ -24,6 +24,27 @@ The repo ships with a lightweight `Makefile` wired to [`uvx`](https://docs.astra
    make run PROMPT="Summarize the latest message."
    ```
 
+### Examples
+
+#### Disk space:
+
+```bash
+| => python main.py "get disk space on current machine using python"
+Disk Space:
+Total: 926.35 GB
+Used: 452.60 GB
+Free: 473.76 GB
+```
+
+#### CPU usage:
+
+```bash
+| => python main.py "give current cpu usage" -v
+INFO: Running tool 'python'.
+INFO: Responding without tool use.
+Current CPU usage: 16.5%
+```
+
 ### Configuration
 
 All settings live in `.env` (loaded with `python-dotenv`):
@@ -37,6 +58,7 @@ All settings live in `.env` (loaded with `python-dotenv`):
 | `GEMINI_MODEL` | Defaults to `gemini-2.5-flash`.            |
 | `AGENT_SYSTEM_PROMPT` | Optional custom system prompt.             |
 | `REQUEST_TIMEOUT` | Request timeout in seconds (default `30`). |
+| `PYTHON_TOOL_IMPORTS` | Optional comma list of extra python-tool imports (`os,sys,psutil`). |
 
 The repository already contains `.env.example` with placeholders for these values.
 
@@ -51,6 +73,8 @@ python main.py --help
 - `--max-turns`: maximum number of tool iterations.
 - `--no-tools`: disable tool use.
 - `--list-tools`: inspect available tools.
+- `-v/--verbose`: increase logging (use `-vv` for debug-level traces about tool usage).
+- `-q/--quiet`: suppress logs (errors only).
 
 ### Tools
 
@@ -59,7 +83,9 @@ Tools live under `simple_agent/tools` and implement a tiny interface (`name`, `d
 - `time`: returns the current UTC timestamp.
 - `calculator`: evaluates small arithmetic expressions safely.
 - `file_reader`: dumps a snippet of a local text file (`path[:start-end]`).
-- `python`: runs a short Python snippet in a separate interpreter (stdout/stderr returned).
+- `python`: runs a short Python snippet in a separate interpreter (default imports include `math`, `json`, `os`, `sys`, `psutil`; extend via `PYTHON_TOOL_IMPORTS`).
+
+The python tool executes with a module allowlist. By default it includes: `collections`, `datetime`, `functools`, `itertools`, `json`, `math`, `os`, `pathlib`, `psutil`, `random`, `statistics`, `sys`, `time`. Set `PYTHON_TOOL_IMPORTS` (comma separated) to append additional modules if needed.
 
 Adding new tools only requires dropping a module next to the others and including it in `load_default_tools()`.
 
