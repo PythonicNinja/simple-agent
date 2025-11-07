@@ -28,14 +28,14 @@ The repo ships with a lightweight `Makefile` wired to [`uvx`](https://docs.astra
 
 All settings live in `.env` (loaded with `python-dotenv`):
 
-| Variable | Description |
-| --- | --- |
-| `LLM_BACKEND` | `chatgpt` or `gemini`. |
-| `OPENAI_API_KEY` | Required for the ChatGPT backend. |
-| `OPENAI_MODEL` | Defaults to `gpt-4o-mini`. |
-| `GEMINI_API_KEY` | Required for the Gemini backend. |
-| `GEMINI_MODEL` | Defaults to `gemini-1.5-flash`. |
-| `AGENT_SYSTEM_PROMPT` | Optional custom system prompt. |
+| Variable | Description                                |
+| --- |--------------------------------------------|
+| `LLM_BACKEND` | `chatgpt` or `gemini`.                     |
+| `OPENAI_API_KEY` | Required for the ChatGPT backend.          |
+| `OPENAI_MODEL` | Defaults to `gpt-4o-mini`.                 |
+| `GEMINI_API_KEY` | Required for the Gemini backend.           |
+| `GEMINI_MODEL` | Defaults to `gemini-2.5-flash`.            |
+| `AGENT_SYSTEM_PROMPT` | Optional custom system prompt.             |
 | `REQUEST_TIMEOUT` | Request timeout in seconds (default `30`). |
 
 The repository already contains `.env.example` with placeholders for these values.
