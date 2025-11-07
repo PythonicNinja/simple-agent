@@ -58,7 +58,7 @@ All settings live in `.env` (loaded with `python-dotenv`):
 | `GEMINI_MODEL` | Defaults to `gemini-2.5-flash`.            |
 | `AGENT_SYSTEM_PROMPT` | Optional custom system prompt.             |
 | `REQUEST_TIMEOUT` | Request timeout in seconds (default `30`). |
-| `PYTHON_TOOL_IMPORTS` | Optional comma list of extra python-tool imports (`os,sys,psutil`). |
+| `PYTHON_TOOL_IMPORTS` | Optional comma list of extra python-tool imports (`os,sys,psutil,bs4`). |
 
 The repository already contains `.env.example` with placeholders for these values.
 
@@ -83,9 +83,9 @@ Tools live under `simple_agent/tools` and implement a tiny interface (`name`, `d
 - `time`: returns the current UTC timestamp.
 - `calculator`: evaluates small arithmetic expressions safely.
 - `file_reader`: dumps a snippet of a local text file (`path[:start-end]`).
-- `python`: runs a short Python snippet in a separate interpreter (default imports include `math`, `json`, `os`, `sys`, `psutil`; extend via `PYTHON_TOOL_IMPORTS`).
+- `python`: runs a short Python snippet in a separate interpreter (default imports include `math`, `json`, `os`, `sys`, `psutil`, `bs4`; extend via `PYTHON_TOOL_IMPORTS`).
 
-The python tool executes with a module allowlist. By default it includes: `collections`, `datetime`, `functools`, `itertools`, `json`, `math`, `os`, `pathlib`, `psutil`, `random`, `statistics`, `sys`, `time`. Set `PYTHON_TOOL_IMPORTS` (comma separated) to append additional modules if needed.
+The python tool executes with a module allowlist. By default it includes: `collections`, `datetime`, `functools`, `itertools`, `json`, `math`, `os`, `pathlib`, `psutil`, `random`, `statistics`, `sys`, `time`, `bs4`. Set `PYTHON_TOOL_IMPORTS` (comma separated) to append additional modules if needed (e.g., `requests`).
 
 Adding new tools only requires dropping a module next to the others and including it in `load_default_tools()`.
 

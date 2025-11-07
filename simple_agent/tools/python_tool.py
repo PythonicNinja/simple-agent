@@ -37,6 +37,8 @@ class PythonSandboxTool(SimpleTool):
             "sys",
             "pathlib",
             "psutil",
+            "requests",
+            "bs4",
         }
         self.allowed_imports = default_allowed | (extra_allowed_imports or set())
 
