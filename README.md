@@ -2,6 +2,24 @@
 
 A tiny, KISS-friendly command line agent that can talk to either OpenAI's ChatGPT API or Google's Gemini API. The agent supports a pluggable backend, a light tool loop, and environment-driven configuration.
 
+### Architecture
+
+```mermaid
+flowchart TD
+    subgraph ConfigChain[Configuration precedence]
+        A1[CLI params] --> A2[.env values]
+        A2 --> A3[Code defaults]
+    end
+    ConfigChain --> CLI
+    CLI[CLI] --> Prompt[User prompt as task objective]
+    Prompt --> SystemPrompt[System prompt + tool descriptions]
+    SystemPrompt --> Loop{{LLM backend planning cycle}}
+    Loop -->|tool call| Tools[Tool runner]
+    Tools --> Loop
+    Loop -->|≤ --max-turns default 5| Loop
+    Loop --> Response[Final response to user]
+```
+
 ### Examples
 
 #### Disk space:
