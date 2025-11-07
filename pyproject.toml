@@ -1,0 +1,20 @@
+[project]
+name = "simple-agent"
+version = "0.1.0"
+description = "Minimal modular agent that can run against ChatGPT or Gemini backends."
+authors = [{ name = "simple-agent", email = "dev@example.com" }]
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "python-dotenv>=1.0",
+    "requests>=2.32",
+]
+
+[project.optional-dependencies]
+dev = [
+    "ruff>=0.6",
+]
+
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
