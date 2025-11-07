@@ -45,6 +45,20 @@ INFO: Responding without tool use.
 Current CPU usage: 16.5%
 ```
 
+#### LLM encoded info: 
+
+```bash
+| => python main.py "captial of poland"
+Warsaw
+```
+
+#### Real time search:
+
+```bash
+| => python main.py "search on wiki for top article of today? use python requests"
+Today's Featured Article on Wikipedia is "U2 in 2005".
+```
+
 ### Configuration
 
 All settings live in `.env` (loaded with `python-dotenv`):
