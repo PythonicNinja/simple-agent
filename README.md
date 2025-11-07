@@ -81,6 +81,8 @@ All settings live in `.env` (loaded with `python-dotenv`):
 | `REQUEST_TIMEOUT` | Request timeout in seconds (default `30`). |
 | `PYTHON_TOOL_IMPORTS` | Optional comma list of extra python-tool imports (`os,sys,psutil,bs4`). |
 
+To obtain a Gemini API key, head to [Google AI Studio](https://aistudio.google.com/app/apikey), create a key (or use an existing Google Cloud project), and paste it into `GEMINI_API_KEY`. Keys can be revoked or rotated from the same page.
+
 The repository already contains `.env.example` with placeholders for these values.
 
 ### CLI options
