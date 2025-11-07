@@ -11,12 +11,17 @@ flowchart TD
         A2 --> A3[Code defaults]
     end
     ConfigChain --> CLI
-    CLI[CLI] --> Prompt[User prompt as task objective]
-    Prompt --> SystemPrompt[System prompt + tool descriptions]
-    SystemPrompt --> Loop{{LLM backend planning cycle}}
-    Loop -->|tool call| Tools[Tool runner]
-    Tools --> Loop
-    Loop -->|≤ --max-turns default 5| Loop
+    CLI --> Prompt[Prompt task input]
+    Prompt --> SystemPrompt[System prompt with tool inventory]
+    SystemPrompt --> Backend{{LLM backend}}
+    Backend <--> B1[OpenAI API]
+    Backend <--> B2[Google Gemini API]
+    Backend <--> Loop{{AGENT}}
+    Loop <-->|tool call --max-turns default 5 | Tools[Tools]
+    Tools --> T1[time]
+    Tools --> T2[calculator]
+    Tools --> T3[file_reader]
+    Tools --> T4[python sandbox]
     Loop --> Response[Final response to user]
 ```
 
