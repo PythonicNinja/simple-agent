@@ -59,6 +59,7 @@ Tools live under `simple_agent/tools` and implement a tiny interface (`name`, `d
 - `time`: returns the current UTC timestamp.
 - `calculator`: evaluates small arithmetic expressions safely.
 - `file_reader`: dumps a snippet of a local text file (`path[:start-end]`).
+- `python`: runs a short Python snippet in a separate interpreter (stdout/stderr returned).
 
 Adding new tools only requires dropping a module next to the others and including it in `load_default_tools()`.
 
