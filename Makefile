@@ -7,12 +7,13 @@ VENV_BIN := $(VENV)/bin
 VENV_ACTIVATE := source $(VENV_BIN)/activate
 DEFAULT_PYTHON := $(if $(wildcard $(VENV_BIN)/python),$(VENV_BIN)/python,)
 
-PYTHON ?= $(if $(DEFAULT_PYTHON),$(DEFAULT_PYTHON),$(UVX) python)
-PIP ?= $(if $(DEFAULT_PYTHON),$(VENV_BIN)/pip,$(UVX) pip)
+PYTHON ?= $(if $(DEFAULT_PYTHON),$(DEFAULT_PYTHON),python3)
+PIP ?= $(PYTHON) -m pip
 RUFF ?= $(UVX) ruff
-PYTEST ?= pytest -vv --cov=simple_agent --cov-report=term-missing
+PYTEST ?= $(PYTHON) -m pytest
+PYTEST_ARGS ?= -vv --cov=simple_agent --cov-report=term-missing
 
-.PHONY: venv run lint tools install clean test
+.PHONY: venv run lint tools install clean test coverage
 
 venv:
 	$(VENV_PYTHON) -m venv $(VENV)
@@ -28,7 +29,10 @@ tools:
 	$(PYTHON) main.py --list-tools
 
 test:
-	$(PYTEST)
+	$(PYTEST) $(PYTEST_ARGS)
+
+coverage:
+	$(PYTEST) --cov-report=xml --cov-report=term-missing --cov=simple_agent
 
 lint:
 	$(RUFF) check simple_agent main.py
