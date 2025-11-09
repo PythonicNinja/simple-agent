@@ -6,11 +6,9 @@ import os
 from dataclasses import dataclass
 from functools import lru_cache
 from typing import Literal
-
 from dotenv import load_dotenv
 
 load_dotenv()
-
 
 BackendName = Literal["chatgpt", "gemini"]
 
@@ -46,7 +44,7 @@ class Settings:
                 "AGENT_SYSTEM_PROMPT",
                 "You are a concise assistant. Use tools only when strictly necessary.",
             )
-            or "You are a concise assistant. Use tools only when strictly necessary.",
+                          or "You are a concise assistant. Use tools only when strictly necessary.",
             openai_api_key=cls._get_env("OPENAI_API_KEY"),
             openai_model=cls._get_env("OPENAI_MODEL", "gpt-4o-mini"),
             gemini_api_key=cls._get_env("GEMINI_API_KEY"),

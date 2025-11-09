@@ -9,8 +9,9 @@ DEFAULT_PYTHON := $(if $(wildcard $(VENV_BIN)/python),$(VENV_BIN)/python,)
 
 PYTHON ?= $(if $(DEFAULT_PYTHON),$(DEFAULT_PYTHON),$(UVX) python)
 RUFF ?= $(UVX) ruff
+PYTEST ?= pytest -vv --cov=simple_agent --cov-report=term-missing
 
-.PHONY: venv run lint tools install clean
+.PHONY: venv run lint tools install clean test
 
 venv:
 	$(VENV_PYTHON) -m venv $(VENV)
@@ -24,6 +25,9 @@ run:
 
 tools:
 	$(PYTHON) main.py --list-tools
+
+test:
+	$(PYTEST)
 
 lint:
 	$(RUFF) check simple_agent main.py
