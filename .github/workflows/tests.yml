@@ -20,7 +20,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install uv
+          pip install --upgrade uv pip
           make install
 
       - name: Run pytest
