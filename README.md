@@ -1,5 +1,7 @@
 ## Simple Agent
 
+[![CI](https://github.com/PythonicNinja/simple-agent/actions/workflows/tests.yml/badge.svg)](https://github.com/PythonicNinja/simple-agent/actions/workflows/tests.yml)
+
 A tiny, KISS-friendly command line agent that can talk to either OpenAI's ChatGPT API or Google's Gemini API. The agent supports a pluggable backend, a light tool loop, and environment-driven configuration.
 
 ### Architecture
